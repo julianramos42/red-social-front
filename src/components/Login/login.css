@@ -1,0 +1,83 @@
+.login-main{
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3) url('../../images/bg.jpg');
+    background-blend-mode: darken;
+    background-size: cover;
+    background-position: center;
+}
+
+.login-form{
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 100px;
+    gap: 20px;
+    border: 1px solid gray;
+    box-shadow: 0px 1px 5px gray;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.login-form .login-title{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form .login-title h3 {
+    color: rgb(192, 192, 192);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.login-form form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.login-form fieldset{
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.login-form fieldset input{
+    height: 35px;
+    padding: 0px 5px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgb(134, 82, 255);
+}
+
+.login-btn{
+    background-color: rgb(134, 82, 255);
+    color: #efefef;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.login-btn:hover{
+    cursor: pointer;
+    background-color: rgb(80, 82, 180);
+}
+
+.login-form p{
+    font-size: 14px;
+    text-align: center;
+}
+
+.link{
+    text-decoration: none;
+    color: rgb(134, 82, 255);
+    font-weight: bold;
+}
