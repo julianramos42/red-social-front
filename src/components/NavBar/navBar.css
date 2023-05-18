@@ -1,0 +1,86 @@
+.navContainer {
+    height: 100vh;
+    width: 100vw;
+    padding: 0px 0px 0px 28px;
+}
+
+.containerNavStore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    background: aquamarine;
+    height: 100vh;
+    z-index: 1;
+    transition: 1s ease all;
+    transform: translateX(0);
+    /* padding: 0px 0px 0px 80px; */
+    gap: 25px;
+}
+
+.containerNavStoreClosed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    background: aquamarine;
+    height: 100vh;
+    z-index: 1;
+    transition: 1s ease all;
+    transform: translateX(-100%) !important;
+}
+
+.arrow-r {
+    font-size: 18px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    bottom: 50%;
+    padding: 0px 0px 0px 10px;
+    z-index: 0;
+}
+
+.arrow-r:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.arrow-l {
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    bottom: 50%;
+    padding: 0px 10px 0px 0px;
+    transition: .4s;
+}
+
+.arrow-l:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.icon{
+    display: flex;
+    gap: 5px;
+    transition: .4s;
+    width: 95px;
+}
+
+.icon:hover{
+    cursor: pointer;
+    margin: 10px 0px 10px 0px;
+}
+
+.logout{
+    position: absolute;
+    bottom: 25px;
+}

@@ -81,3 +81,10 @@
     color: rgb(134, 82, 255);
     font-weight: bold;
 }
+
+@media (max-width:550px){
+    .register-form{
+        width: 100%;
+        padding: 0px 50px;
+    }
+}
