@@ -66,7 +66,6 @@ export default function NavBar() {
                 <i className="fa-solid fa-arrow-left arrow-l" onClick={closeNav}></i>
             </nav>
             <i className="fa-solid fa-arrow-right arrow-r" onClick={openNav}></i>
-            <h1>asd</h1>
         </div>
     )
 }

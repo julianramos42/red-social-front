@@ -1,7 +1,9 @@
 .navContainer {
     height: 100vh;
-    width: 100vw;
     padding: 0px 0px 0px 28px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .containerNavStore {
@@ -18,7 +20,6 @@
     z-index: 1;
     transition: 1s ease all;
     transform: translateX(0);
-    /* padding: 0px 0px 0px 80px; */
     gap: 25px;
 }
 
