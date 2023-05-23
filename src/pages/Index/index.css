@@ -27,6 +27,10 @@
   gap: 5px;
 }
 
+.new-publication .person h3{
+  text-align: center;
+}
+
 .new-publication .person img{
   height: 48px;
   width: 48px;
@@ -128,4 +132,19 @@
     color: rgb(216, 3, 3);
     font-size: 22px;
     cursor: pointer;
+  }
+
+  @media (max-width:880px){
+      .new-publication form{
+        width: 60%;
+      }
+      .new-publication textarea{
+        width: 100%;
+      }
+  }
+
+  @media (max-width:580px){
+    .main-container .home{
+      padding: 3%;
+    }
   }

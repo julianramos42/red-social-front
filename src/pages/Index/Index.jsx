@@ -100,6 +100,19 @@ export default function Index() {
     }
   }
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+  
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+  
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  }
+
   return (
     <div className='main-container'>
       <NavBar />
@@ -124,7 +137,7 @@ export default function Index() {
                     <div className="post-content">
                       <h3 className="post-name">{publication.user_id.name} {publication.user_id.last_name}</h3>
                       <p className="post-text">{publication.text}</p>
-                      <span className="post-date">{Date(publication.createdAt)}</span>
+                      <span className="post-date">{formatDate(publication.createdAt)}</span>
                     </div>
                     {
                       publication.user_id._id == userData.user_id ? <div>

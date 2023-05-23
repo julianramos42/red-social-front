@@ -31,7 +31,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 15%;
+    width: 20%;
     background: aquamarine;
     height: 100vh;
     z-index: 1;
@@ -84,4 +84,13 @@
 .logout{
     position: absolute;
     bottom: 25px;
+}
+
+@media (max-width:767px){
+    .containerNavStore{
+        width: 100%;
+    }
+    .containerNavStoreClosed{
+        width: 100%;
+    }
 }
