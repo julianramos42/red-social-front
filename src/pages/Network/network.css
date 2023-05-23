@@ -1,0 +1,104 @@
+.network-container .network {
+    width: 100%;
+    min-height: 100vh;
+    padding: 3% 20%;
+    background-color: #eff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.network-container .network .search-bar{
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 300px;
+    padding: 0 0 0 10px;
+    gap: 5px;
+}
+
+.network-container .network .search-bar input{
+    border: none;
+    outline: none;
+    height: 40px;
+    padding: 0 5px;
+    border-radius: 10px;
+}
+
+
+.network-persons {
+    width: 100%;
+    min-height: auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0px 20px 0px;
+}
+
+.one-person {
+    display: flex;
+    width: 90%;
+    min-height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+}
+
+.one-person .person-info {
+    display: flex;
+    gap: 15px;
+}
+
+.one-person .person-info h3{
+    display: flex;
+    align-items: center;
+}
+
+.one-person .person-info img {
+    width: 48px;
+    height: 48px;
+}
+
+.add-friend{
+    background-color: rgb(134, 82, 255);
+    color: #efefef;
+    height: 25px;
+    width: 100px;
+    border: none;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.add-friend:hover{
+    cursor: pointer;
+    background-color: rgb(80, 82, 180);
+}
+
+.pending-friend{
+    background-color: rgb(255, 82, 82);
+    color: #efefef;
+    height: 25px;
+    width: 100px;
+    border: none;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.pending-friend:hover{
+    background-color: rgb(180, 80, 80);
+}
+
+@media (max-width: 767px){
+    .network-container .network{
+        padding: 3% 8%;
+    }
+}

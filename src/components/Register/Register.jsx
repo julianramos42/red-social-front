@@ -15,9 +15,8 @@ export default function Register({setState}) {
             e.preventDefault()
             let data = {
                 name: dataForm.current[1].value,
-                last_name: dataForm.current[3].value,
-                email: dataForm.current[5].value,
-                password: dataForm.current[7].value
+                email: dataForm.current[3].value,
+                password: dataForm.current[5].value
             }
             let url = 'http://localhost:8080/users/signup'
             const res = await axios.post(url, data)
@@ -59,9 +58,6 @@ export default function Register({setState}) {
                 <form ref={dataForm} onSubmit={handleRegister}>
                     <fieldset>
                         <input type='text' name='name' id='name' placeholder='Name' />
-                    </fieldset>
-                    <fieldset>
-                        <input type='text' name='last_name' id='last_name' placeholder='Last Name' />
                     </fieldset>
                     <fieldset>
                         <input type='email' name='email' id='email' placeholder='Email' />

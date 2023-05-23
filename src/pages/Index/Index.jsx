@@ -120,7 +120,7 @@ export default function Index() {
         <div className='new-publication'>
           <div className='person'>
             <img src={userData.photo} alt='profile-photo'/>
-            <h3>{userData.name} {userData.last_name}</h3>
+            <h3>{userData.name}</h3>
           </div>
           <form onSubmit={handlePublication}>
             <textarea ref={publicationData} id='new-publication' name='new-publication' placeholder='What are you thinking?' />
@@ -135,7 +135,7 @@ export default function Index() {
                   <div className="social-post" key={i}>
                     <img src={publication.user_id.photo} alt='profile-photo' className="post-photo" />
                     <div className="post-content">
-                      <h3 className="post-name">{publication.user_id.name} {publication.user_id.last_name}</h3>
+                      <h3 className="post-name">{publication.user_id.name}</h3>
                       <p className="post-text">{publication.text}</p>
                       <span className="post-date">{formatDate(publication.createdAt)}</span>
                     </div>

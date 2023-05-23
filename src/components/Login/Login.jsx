@@ -26,7 +26,6 @@ export default function Login({setState}) {
         user_id: res.data.user._id,
         photo: res.data.user.photo,
         name: res.data.user.name,
-        last_name: res.data.user.last_name
       }
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user', JSON.stringify(userData))

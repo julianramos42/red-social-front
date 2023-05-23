@@ -74,6 +74,8 @@
     gap: 5px;
     transition: .4s;
     width: 95px;
+    text-decoration: none;
+    color: black;
 }
 
 .icon:hover{

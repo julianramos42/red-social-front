@@ -1,6 +1,7 @@
 import IndexLayout from "../layouts/IndexLayout";
 import Index from './Index/Index'
 import Auth from "./Auth/Auth";
+import Network from './Network/Network'
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -10,7 +11,8 @@ export const router = createBrowserRouter([
         element: <IndexLayout/>,
         children: [
             { path: '/', element: <Index/> },
-            { path: '/auth', element: <Auth/> }
+            { path: '/auth', element: <Auth/> },
+            { path: '/network', element: <Network/> }
         ]
     }
 ])

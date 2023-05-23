@@ -145,6 +145,6 @@
 
   @media (max-width:580px){
     .main-container .home{
-      padding: 3%;
+      padding: 3% 8%;
     }
   }

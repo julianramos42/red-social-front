@@ -4,6 +4,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { LoadStart, LoadRemove } from '../Loading'
+import { Link as Anchor } from 'react-router-dom'
 
 export default function NavBar() {
     const [navOpen, setNavOpen] = useState(false)
@@ -47,18 +48,18 @@ export default function NavBar() {
     return (
         <div className='navContainer'>
             <nav className={navOpen ? 'containerNavStore' : 'containerNavStoreClosed'}>
-                <div className='icon'>
+                <Anchor to='/' className='icon'>
                     <i className="fa-solid fa-house"></i>
                     <h4>Home</h4>
-                </div>
-                <div className='icon'>
+                </Anchor>
+                <Anchor to='/chats' className='icon'>
                     <i className="fa-solid fa-comments"></i>
                     <h4>Chats</h4>
-                </div>
-                <div className='icon'>
+                </Anchor>
+                <Anchor to='/network' className='icon'>
                     <i className="fa-solid fa-people-group"></i>
                     <h4>Network</h4>
-                </div>
+                </Anchor>
                 <div className='icon logout' onClick={logOut}>
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>
                     <h4>LogOut</h4>
