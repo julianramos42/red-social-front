@@ -22,7 +22,14 @@ export default function Login({setState}) {
       let url = 'http://localhost:8080/users/signin'
       const res = await axios.post(url, data)
       toast.success(res.data.message)
+      let userData = {
+        user_id: res.data.user._id,
+        photo: res.data.user.photo,
+        name: res.data.user.name,
+        last_name: res.data.user.last_name
+      }
       localStorage.setItem('token', res.data.token)
+      localStorage.setItem('user', JSON.stringify(userData))
       setTimeout( () => {
         LoadRemove()
         navigate('/')
