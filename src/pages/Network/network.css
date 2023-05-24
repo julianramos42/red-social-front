@@ -43,6 +43,7 @@
 
 .one-person {
     display: flex;
+    gap: 10px;
     width: 90%;
     min-height: 50px;
     align-items: center;
@@ -56,11 +57,12 @@
 .one-person .person-info {
     display: flex;
     gap: 15px;
+    width: 70%;
 }
 
 .one-person .person-info h3{
     display: flex;
-    align-items: center;
+    align-items: center;   
 }
 
 .one-person .person-info img {
@@ -83,6 +85,21 @@
     background-color: rgb(80, 82, 180);
 }
 
+.added-friend{
+    background-color: rgb(82, 128, 255);
+    color: #efefef;
+    height: 25px;
+    width: 100px;
+    border: none;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.added-friend:hover{
+    background-color: rgb(80, 103, 180);
+}
+
+
 .pending-friend{
     background-color: rgb(255, 82, 82);
     color: #efefef;
@@ -100,5 +117,17 @@
 @media (max-width: 767px){
     .network-container .network{
         padding: 3% 8%;
+    }
+}
+
+@media (max-width: 500px){
+    .one-person{
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 360px){
+    .network-container .network{
+        padding: 3% 5%;
     }
 }
