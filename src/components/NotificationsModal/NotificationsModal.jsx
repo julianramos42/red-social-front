@@ -120,7 +120,7 @@ export default function NotificationsModal() {
                         </div>
                         return card
                     }) : <div className='no-notification'>
-                        <p>No posts found</p>
+                        <p>No notifications found</p>
                     </div>
                 }
             </div>
