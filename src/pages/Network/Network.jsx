@@ -15,9 +15,10 @@ export default function Network() {
   const [notifications, setNotifications] = useState([])
   const [conections, setConections] = useState([])
   const modalState = useSelector(store => store.modalReducer.state)
+  const token = localStorage.getItem('token')
+  const headers = { headers: { Authorization: `Bearer ${token}` } };
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
     if (!token) {
       navigate('/auth')
     } else {
@@ -50,8 +51,6 @@ export default function Network() {
     LoadStart()
     let id = e.target.id
     const url = 'http://localhost:8080/notifications'
-    const token = localStorage.getItem('token');
-    const headers = { headers: { Authorization: `Bearer ${token}` } };
     let data = {
       user_id1: userData.user_id,
       user_id2: id
@@ -77,8 +76,6 @@ export default function Network() {
 
   async function getNotifications() {
     const url = 'http://localhost:8080/notifications'
-    const token = localStorage.getItem('token');
-    const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
       const res = await axios.get(url, headers)
       setNotifications(res.data.notifications)
@@ -97,8 +94,6 @@ export default function Network() {
 
   async function getConections() {
     const url = 'http://localhost:8080/conections'
-    const token = localStorage.getItem('token');
-    const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
       const res = await axios.get(url, headers)
       setConections(res.data.conections)
@@ -121,13 +116,21 @@ export default function Network() {
   }
 
   useEffect(() => {
-    getUsers()
+    if (!token) {
+      navigate('/auth')
+    } else {
+      getUsers()
+    }
   }, [search])
 
   useEffect(() => {
-    getUsers()
-    getNotifications()
-    getConections()
+    if (!token) {
+      navigate('/auth')
+    } else {
+      getUsers()
+      getNotifications()
+      getConections()
+    }
   }, [modalState])
 
   return (

@@ -18,9 +18,10 @@ export default function Chats() {
     const [messages, setMessages] = useState([])
     const messageInput = useRef()
     const connectionSearch = useRef()
+    const token = localStorage.getItem('token')
+    const headers = { headers: { Authorization: `Bearer ${token}` } };
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
         if (!token) {
             navigate('/auth')
         } else {
@@ -29,15 +30,17 @@ export default function Chats() {
     }, [])
 
     useEffect(() => {
-        if (selectedChat) {
-            getMessages()
+        if (!token) {
+            navigate('/auth')
+        } else {
+            if (selectedChat) {
+                getMessages()
+            }
         }
     }, [selectedChat])
 
     async function getConections() {
         const url = 'http://localhost:8080/conections?name=' + connectionSearch.current.value
-        const token = localStorage.getItem('token');
-        const headers = { headers: { Authorization: `Bearer ${token}` } };
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
@@ -56,8 +59,6 @@ export default function Chats() {
 
     async function getMessages() {
         const url = 'http://localhost:8080/messages/' + selectedChat.user_id1._id
-        const token = localStorage.getItem('token');
-        const headers = { headers: { Authorization: `Bearer ${token}` } };
         try {
             const res = await axios.get(url, headers)
             setMessages(res.data.messages)
@@ -84,8 +85,6 @@ export default function Chats() {
 
     async function sendMessage(e) {
         const url = 'http://localhost:8080/messages'
-        const token = localStorage.getItem('token');
-        const headers = { headers: { Authorization: `Bearer ${token}` } };
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
                 const data = {
@@ -135,10 +134,8 @@ export default function Chats() {
         </div>
     );
 
-    const handleYesClick = async() => {
+    const handleYesClick = async () => {
         const url = 'http://localhost:8080/conections/' + selectedChat.user_id1._id
-        const token = localStorage.getItem('token');
-        const headers = { headers: { Authorization: `Bearer ${token}` } };
         try {
             const res = await axios.delete(url, headers)
             setTimeout(() => {
@@ -171,92 +168,102 @@ export default function Chats() {
     }
 
     useEffect(() => {
-        getConections()
-        if (selectedChat) {
-            getMessages()
+        if (!token) {
+            navigate('/auth')
+        } else {
+            getConections()
+            if (selectedChat) {
+                getMessages()
+            }
         }
     }, [modalState])
 
     return (
-        <div className='chats-container'>
-            <NavBar />
-            <div className='chats'>
-                <div className='search-bar'>
-                    <label htmlFor='search-bar'>
-                        <i className="fa-solid fa-magnifying-glass"></i>
-                    </label>
-                    <input type='text' name='search-bar' id='search-bar' placeholder='Find Chats' onChange={getConections} ref={connectionSearch} />
-                </div>
-                <div className='chats-bars'>
-                    {
-                        conections.length ? conections.map((conection, i) => {
-                            let card = <div className={selectedChat === conection ? 'social-chat selected-chat' : 'social-chat'} key={i} id={conection._id} onClick={selectChat}>
-                                <img src={conection.user_id1.photo} alt='profile' className="chat-photo" id={conection._id} />
-                                <div className="chat-content" id={conection._id}>
-                                    <h3 className="chat-name" id={conection._id}>{conection.user_id1.name}</h3>
+        <div className='chatsPage-container'>
+            <div className='chats-container'>
+                <NavBar />
+                <div className='chats'>
+                    <div className='person'>
+                        <img src={userData.photo} alt='profile-photo' />
+                        <h3>{userData.name}</h3>
+                    </div>
+                    <div className='search-bar'>
+                        <label htmlFor='search-bar'>
+                            <i className="fa-solid fa-magnifying-glass"></i>
+                        </label>
+                        <input type='text' name='search-bar' id='search-bar' placeholder='Find Chats' onChange={getConections} ref={connectionSearch} />
+                    </div>
+                    <div className='chats-bars'>
+                        {
+                            conections.length ? conections.map((conection, i) => {
+                                let card = <div className={selectedChat === conection ? 'social-chat selected-chat' : 'social-chat'} key={i} id={conection._id} onClick={selectChat}>
+                                    <img src={conection.user_id1.photo} alt='profile' className="chat-photo" id={conection._id} />
+                                    <div className="chat-content" id={conection._id}>
+                                        <h3 className="chat-name" id={conection._id}>{conection.user_id1.name}</h3>
+                                    </div>
                                 </div>
+                                return card;
+                            }) : <div>
+                                <p>No conections yet</p>
                             </div>
-                            return card;
-                        }) : <div>
-                            <p>No conections yet</p>
-                        </div>
+                        }
+                    </div>
+                </div>
+                <div className='displayed-chat'>
+                    {
+                        selectedChat ?
+                            <>
+                                <div className='chat-header'>
+                                    <div className="chat-header-info" >
+                                        <img src={selectedChat.user_id1.photo} alt='profile' className="chat-photo" />
+                                        <h3 className="chat-name">{selectedChat.user_id1.name}</h3>
+                                    </div>
+                                    <button className='delete-friend' onClick={deleteFriend}>Delete Friend</button>
+                                </div>
+                                <div className='chat-messages'>
+                                    {
+                                        messages.length ? messages.map((message, i) => {
+                                            let receiver = userData.user_id === message.receiver
+                                            let sender = userData.user_id === message.sender
+                                            let card = <>
+                                                {
+                                                    receiver && !sender && <>
+                                                        <div className='message1' key={i}>
+                                                            <h4>{message.text}</h4>
+                                                        </div>
+                                                        <span className="message1-date">{formatDate(message.createdAt)}</span>
+                                                    </>
+                                                }
+                                                {
+                                                    sender && !receiver && <>
+                                                        <div className='message2' key={i}>
+                                                            <h4>{message.text}</h4>
+                                                        </div>
+                                                        <span className="message2-date">{formatDate(message.createdAt)}</span>
+                                                    </>
+                                                }
+                                            </>
+                                            return card
+                                        }) : <div className='no-conversation'>
+                                            <h3>Write something!</h3>
+                                        </div>
+                                    }
+                                </div>
+                                <div className='send-message'>
+                                    <div className='message-bar'>
+                                        <input type='text' name='message-input' id='message-input' onKeyUp={sendMessage} onChange={textMessage} placeholder='Type your message' ref={messageInput} />
+                                        <label htmlFor='message-input'>
+                                            <i className="fa-solid fa-paper-plane" id='send' onClick={sendMessage}></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </>
+                            :
+                            <div className='no-conversation'>
+                                <h3>Chat to someone!</h3>
+                            </div>
                     }
                 </div>
-            </div>
-            <div className='displayed-chat'>
-                {
-                    selectedChat ?
-                        <>
-                            <div className='chat-header'>
-                                <div className="chat-header-info" >
-                                    <img src={selectedChat.user_id1.photo} alt='profile' className="chat-photo" />
-                                    <h3 className="chat-name">{selectedChat.user_id1.name}</h3>
-                                </div>
-                                <button className='delete-friend' onClick={deleteFriend}>Delete Friend</button>
-                            </div>
-                            <div className='chat-messages'>
-                                {
-                                    messages.length ? messages.map((message, i) => {
-                                        let receiver = userData.user_id === message.receiver
-                                        let sender = userData.user_id === message.sender
-                                        let card = <>
-                                            {
-                                                receiver && !sender && <>
-                                                    <div className='message1' key={i}>
-                                                        <h4>{message.text}</h4>
-                                                    </div>
-                                                    <span className="message1-date">{formatDate(message.createdAt)}</span>
-                                                </>
-                                            }
-                                            {
-                                                sender && !receiver && <>
-                                                    <div className='message2' key={i}>
-                                                        <h4>{message.text}</h4>
-                                                    </div>
-                                                    <span className="message2-date">{formatDate(message.createdAt)}</span>
-                                                </>
-                                            }
-                                        </>
-                                        return card
-                                    }) : <div className='no-conversation'>
-                                        <h3>Write something!</h3>
-                                    </div>
-                                }
-                            </div>
-                            <div className='send-message'>
-                                <div className='message-bar'>
-                                    <input type='text' name='message-input' id='message-input' onKeyUp={sendMessage} onChange={textMessage} placeholder='Type your message' ref={messageInput} />
-                                    <label htmlFor='message-input'>
-                                        <i className="fa-solid fa-paper-plane" id='send' onClick={sendMessage}></i>
-                                    </label>
-                                </div>
-                            </div>
-                        </>
-                        :
-                        <div className='no-conversation'>
-                            <h3>Chat to someone!</h3>
-                        </div>
-                }
             </div>
         </div>
     )

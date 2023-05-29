@@ -2,7 +2,8 @@
     width: 100%;
     min-height: 100vh;
     padding: 3% 20%;
-    background-color: #eff;
+    background: rgba(0, 0, 0, 0.3) url('../../images/bg.jpg');
+    background-blend-mode: darken;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +18,7 @@
     width: 300px;
     padding: 0 0 0 10px;
     gap: 5px;
+    background-color: #fff;
 }
 
 .network-container .network .search-bar input{
@@ -39,6 +41,7 @@
     align-items: center;
     gap: 20px;
     padding: 20px 0px 20px 0px;
+    background-color: #fff;
 }
 
 .one-person {

@@ -47,7 +47,6 @@ export default function NotificationsModal() {
         const url1 = 'http://localhost:8080/notifications/'+id
         const data = {
             user_id1: userid1,
-            user_id2: userData.user_id
         }   
         const url2 = 'http://localhost:8080/conections/'
         try{
