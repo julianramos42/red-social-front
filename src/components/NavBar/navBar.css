@@ -15,7 +15,7 @@
     bottom: 0;
     left: 0;
     width: 20%;
-    background: rgb(120, 180, 122);
+    background: rgb(134, 82, 255);
     height: 100vh;
     z-index: 1;
     transition: 1s ease all;
@@ -32,7 +32,7 @@
     bottom: 0;
     left: 0;
     width: 20%;
-    background: rgb(120, 180, 122);
+    background: rgb(134, 82, 255);
     height: 100vh;
     z-index: 1;
     transition: 1s ease all;
@@ -62,6 +62,7 @@
     bottom: 50%;
     padding: 0px 10px 0px 0px;
     transition: .4s;
+    color: #fff;
 }
 
 .arrow-l:hover {
@@ -75,7 +76,7 @@
     transition: .4s;
     width: 95px;
     text-decoration: none;
-    color: black;
+    color: #fff;
 }
 
 .icon:hover{

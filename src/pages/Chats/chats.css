@@ -2,8 +2,7 @@
     width: 100vw;
     min-height: 100vh;
     padding: 0% 5%;
-    background: rgba(0, 0, 0, 0.3) url('../../images/bg.jpg');
-    background-blend-mode: darken;
+    background: rgb(243, 230, 255);
     display: flex;
     justify-content: center;
 }
@@ -97,7 +96,7 @@
   }
 
   .displayed-chat{
-    width: 600px;
+    width: 900px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -252,7 +251,6 @@
   @media (max-width: 767px){
     .chats-container{
       overflow-x: auto;
-      width: 640px;
       padding: 0;
     }
 
@@ -269,5 +267,13 @@
       margin: 0; 
       padding: 0;
       overflow-y: hidden;
+    }
+  }
+
+  @media (max-width:639px){
+    .chats-container{
+      overflow-x: auto;
+      width: 640px;
+      padding: 0;
     }
   }

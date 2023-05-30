@@ -24,7 +24,7 @@ export default function Index() {
 
   async function getPublications() {
     LoadStart()
-    const url = 'http://localhost:8080/publications'
+    const url = 'https://red-social-jr.onrender.com/publications'
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
@@ -48,7 +48,7 @@ export default function Index() {
   async function handlePublication(e) {
     e.preventDefault()
     LoadStart()
-    const url = 'http://localhost:8080/publications'
+    const url = 'https://red-social-jr.onrender.com/publications'
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     const data = {
@@ -77,7 +77,7 @@ export default function Index() {
   async function deletePublication(e){
     let id = e.target.id
     LoadStart()
-    const url = `http://localhost:8080/publications/${id}`
+    const url = `https://red-social-jr.onrender.com/publications/${id}`
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
@@ -113,6 +113,33 @@ export default function Index() {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 
+  async function deletePublicationQuestion(e) {
+    toast(<QuestionToast e={e}/>, {
+        duration: Infinity
+    });
+}
+
+  const QuestionToast = ({e}) => (
+    <div className='toast'>
+        <h4>¿Are you sure?</h4>
+        <div className='toast-btns'>
+            <button className='yes-btn' id={e.target.id} onClick={handleYesClick}>Sí</button>
+            <button className='no-btn' onClick={handleNoClick}>No</button>
+        </div>
+    </div>
+);
+
+const handleYesClick = (e) => {
+  deletePublication(e)
+  toast.dismiss();
+};
+
+
+const handleNoClick = () => {
+  toast.dismiss();
+};
+
+
   return (
     <div className='main-container'>
       <NavBar />
@@ -141,7 +168,7 @@ export default function Index() {
                     </div>
                     {
                       publication.user_id._id == userData.user_id ? <div>
-                      <i className="fa-solid fa-trash garbage" onClick={deletePublication} id={publication._id}></i>
+                      <i className="fa-solid fa-trash garbage" onClick={deletePublicationQuestion} id={publication._id}></i>
                     </div> : <></>
                     }
                   </div>

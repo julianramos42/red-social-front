@@ -26,7 +26,7 @@ export default function NavBar() {
     async function logOut() {
         try {
             LoadStart()
-            let url = 'http://localhost:8080/users/signout'
+            let url = 'https://red-social-jr.onrender.com/users/signout'
             const token = localStorage.getItem('token');
             const headers = { headers: { Authorization: `Bearer ${token}` } };
             const res = await axios.post(url, null, headers)
@@ -60,23 +60,23 @@ export default function NavBar() {
             <nav className={navOpen ? 'containerNavStore' : 'containerNavStoreClosed'}>
                 <Anchor to='/' className='icon'>
                     <i className="fa-solid fa-house"></i>
-                    <h4>Home</h4>
+                    <p>Home</p>
                 </Anchor>
                 <Anchor to='/chats' className='icon'>
                     <i className="fa-solid fa-comments"></i>
-                    <h4>Chats</h4>
+                    <p>Chats</p>
                 </Anchor>
                 <Anchor to='/network' className='icon'>
                     <i className="fa-solid fa-people-group"></i>
-                    <h4>Network</h4>
+                    <p>Network</p>
                 </Anchor>
                 <Anchor className='icon' onClick={openModal}>
                     <i className="fa-solid fa-bell"></i>
-                    <h4>Notifications</h4>
+                    <p>Notifications</p>
                 </Anchor>
                 <div className='icon logout' onClick={logOut}>
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                    <h4>LogOut</h4>
+                    <p>LogOut</p>
                 </div>
                 <i className="fa-solid fa-arrow-left arrow-l" onClick={closeNav}></i>
             </nav>

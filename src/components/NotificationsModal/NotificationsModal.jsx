@@ -15,7 +15,7 @@ export default function NotificationsModal() {
     const userData = JSON.parse(localStorage.getItem('user')) || {}
 
     async function getNotifications() {
-        const url = 'http://localhost:8080/notifications/me'
+        const url = 'https://red-social-jr.onrender.com/notifications/me'
         const token = localStorage.getItem('token');
         const headers = { headers: { Authorization: `Bearer ${token}` } };
         try {
@@ -44,11 +44,11 @@ export default function NotificationsModal() {
         const token = localStorage.getItem('token');
         const headers = { headers: { Authorization: `Bearer ${token}` } };
         let userid1 = notifications.find(notification => notification._id == id).user_id1._id
-        const url1 = 'http://localhost:8080/notifications/'+id
+        const url1 = 'https://red-social-jr.onrender.com/notifications/'+id
         const data = {
             user_id1: userid1,
         }   
-        const url2 = 'http://localhost:8080/conections/'
+        const url2 = 'https://red-social-jr.onrender.com/conections/'
         try{
             const res = await axios.post(url2,data,headers)
             toast.success(res.data.message)
@@ -72,7 +72,7 @@ export default function NotificationsModal() {
     async function handleReject(e) {
         LoadStart()
         const id = e.target.id
-        const url = 'http://localhost:8080/notifications/'+id
+        const url = 'https://red-social-jr.onrender.com/notifications/'+id
         const token = localStorage.getItem('token');
         const headers = { headers: { Authorization: `Bearer ${token}` } };
         try{
