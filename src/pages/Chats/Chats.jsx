@@ -62,7 +62,7 @@ export default function Chats() {
     }, [selectedChat])
 
     async function getConections() {
-        const url = 'http://localhost:8080/conections?name=' + connectionSearch.current.value
+        const url = 'https://red-social-jr.onrender.com/conections?name=' + connectionSearch.current.value
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
@@ -83,7 +83,7 @@ export default function Chats() {
 
     async function getMessages() {
         LoadStart()
-        const url = 'http://localhost:8080/messages/' + selectedChat.user_id1._id
+        const url = 'https://red-social-jr.onrender.com/messages/' + selectedChat.user_id1._id
         try {
             const res = await axios.get(url, headers)
             setMessages(res.data.messages)
@@ -112,7 +112,7 @@ export default function Chats() {
     }
 
     async function sendMessage(e) {
-        const url = 'http://localhost:8080/messages'
+        const url = 'https://red-social-jr.onrender.com/messages'
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
                 const data = {
@@ -165,7 +165,7 @@ export default function Chats() {
     );
 
     const handleYesClick = async () => {
-        const url = 'http://localhost:8080/conections/' + selectedChat.user_id1._id
+        const url = 'https://red-social-jr.onrender.com/conections/' + selectedChat.user_id1._id
         try {
             const res = await axios.delete(url, headers)
             setTimeout(() => {
@@ -207,7 +207,7 @@ export default function Chats() {
             }
         }
     }, [modalState])
-    // http://localhost:8080
+    // https://red-social-jr.onrender.com
     const socket = io(''); 
     const connectUser = (userId) => {
         socket.emit('user Connect', userId);

@@ -28,7 +28,7 @@ export default function Index() {
 
   async function getPublications() {
     LoadStart()
-    const url = `http://localhost:8080/publications?page=${page}`
+    const url = `https://red-social-jr.onrender.com/publications?page=${page}`
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
@@ -53,7 +53,7 @@ export default function Index() {
   async function handlePublication(e) {
     e.preventDefault()
     LoadStart()
-    const url = 'http://localhost:8080/publications'
+    const url = 'https://red-social-jr.onrender.com/publications'
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     const data = {
@@ -82,7 +82,7 @@ export default function Index() {
   async function deletePublication(e) {
     let id = e.target.id
     LoadStart()
-    const url = `http://localhost:8080/publications/${id}`
+    const url = `https://red-social-jr.onrender.com/publications/${id}`
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {

@@ -19,7 +19,7 @@ export default function Register({setState}) {
                 email: dataForm.current[5].value,
                 password: dataForm.current[7].value
             }
-            let url = 'http://localhost:8080/users/signup'
+            let url = 'https://red-social-jr.onrender.com/users/signup'
             const res = await axios.post(url, data)
             toast.success(res.data.message)
             localStorage.setItem('token', res.data.token)

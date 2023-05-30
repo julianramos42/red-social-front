@@ -31,7 +31,7 @@ export default function Network() {
   }, [])
 
   async function getUsers() {
-    const url = `http://localhost:8080/users?name=${search}&page=${page}`
+    const url = `https://red-social-jr.onrender.com/users?name=${search}&page=${page}`
     try {
       const res = await axios.get(url, headers)
       setUsers(res.data.users)
@@ -53,7 +53,7 @@ export default function Network() {
   async function handleFriendRequest(e) {
     LoadStart()
     let id = e.target.id
-    const url = 'http://localhost:8080/notifications'
+    const url = 'https://red-social-jr.onrender.com/notifications'
     let data = {
       user_id1: userData.user_id,
       user_id2: id
@@ -78,7 +78,7 @@ export default function Network() {
   }
 
   async function getNotifications() {
-    const url = 'http://localhost:8080/notifications'
+    const url = 'https://red-social-jr.onrender.com/notifications'
     try {
       const res = await axios.get(url, headers)
       setNotifications(res.data.notifications)
@@ -96,7 +96,7 @@ export default function Network() {
   }
 
   async function getConections() {
-    const url = 'http://localhost:8080/conections'
+    const url = 'https://red-social-jr.onrender.com/conections'
     try {
       const res = await axios.get(url, headers)
       setConections(res.data.conections)
