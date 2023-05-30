@@ -31,8 +31,13 @@
 }
 
 .chats .person img{
-  height: 48px;
-  width: 48px;
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 2px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .chats-container .chats .search-bar{
@@ -76,9 +81,13 @@
   }
 
   .chat-photo {
-    width: 48px;
-    height: 48px;
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
     border-radius: 50%;
+    padding: 2px;
+    object-fit: cover;
+    object-position: center;
     margin-right: 16px;
   }
   

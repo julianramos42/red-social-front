@@ -12,7 +12,7 @@
 
 .new-publication {
   width: 100%;
-  height: 100px;
+  height: 130px;
   border: 1px solid black;
   border-radius: 10px;
   padding: 5px;
@@ -34,8 +34,13 @@
 }
 
 .new-publication .person img {
-  height: 48px;
-  width: 48px;
+  height: 75px;
+  width: 75px;
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 2px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .new-publication form {
@@ -96,15 +101,20 @@
 }
 
 .post-photo {
-  width: 48px;
-  height: 48px;
+  height: 75px;
+  width: 75px;
+  border: 1px solid black;
   border-radius: 50%;
+  padding: 2px;
+  object-fit: cover;
+  object-position: center;
   margin-right: 16px;
 }
 
 .post-content {
   flex: 1;
   overflow: hidden;
+  padding-right: 10px;
 }
 
 .post-name {
@@ -117,7 +127,7 @@
   margin-bottom: 8px;
   font-size: 14px;
   width: 100%;
-  overflow: hidden;
+  word-break: break-all;
 }
 
 .post-date {
@@ -153,6 +163,10 @@
 }
 
 @media (max-width:880px) {
+  .main-container .home{
+    padding: 3% 10%;
+  }
+
   .new-publication form {
     width: 60%;
   }
@@ -165,5 +179,19 @@
 @media (max-width:580px) {
   .main-container .home {
     padding: 3% 8%;
+  }
+
+  .social-post{
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .post-content{
+    align-self: flex-start;
+  }
+
+  .post-photo{
+    width: 48px;
+    height: 48px;
   }
 }

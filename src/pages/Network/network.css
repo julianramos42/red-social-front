@@ -69,8 +69,13 @@
 }
 
 .one-person .person-info img {
-    width: 48px;
-    height: 48px;
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    border-radius: 50%;
+    padding: 2px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .add-friend{
