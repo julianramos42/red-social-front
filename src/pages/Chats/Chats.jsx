@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { LoadStart, LoadRemove } from '../../components/Loading'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { io } from 'socket.io-client'
 
 export default function Chats() {
     const navigate = useNavigate()
@@ -26,8 +27,17 @@ export default function Chats() {
             navigate('/auth')
         } else {
             getConections()
+            connectUser(userData.user_id)
         }
     }, [])
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/auth')
+        } else {
+            connectUser(userData.user_id)
+        }
+    }, [userData])
 
     useEffect(() => {
         if (!token) {
@@ -40,11 +50,14 @@ export default function Chats() {
     }, [selectedChat])
 
     async function getConections() {
-        const url = 'https://red-social-jr.onrender.com/conections?name=' + connectionSearch.current.value
+        LoadStart()
+        const url = 'http://localhost:8080/conections?name=' + connectionSearch.current.value
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
+            LoadRemove()
         } catch (error) {
+            LoadRemove()
             if (error.code === "ERR_NETWORK") {
                 toast.error("Network Error");
             } else {
@@ -58,11 +71,15 @@ export default function Chats() {
     }
 
     async function getMessages() {
-        const url = 'https://red-social-jr.onrender.com/messages/' + selectedChat.user_id1._id
+        LoadStart()
+        const url = 'http://localhost:8080/messages/' + selectedChat.user_id1._id
         try {
             const res = await axios.get(url, headers)
             setMessages(res.data.messages)
+            LoadRemove()
         } catch (error) {
+            LoadRemove()
+            console.log(error)
             if (error.code === "ERR_NETWORK") {
                 toast.error("Network Error");
             } else {
@@ -84,7 +101,7 @@ export default function Chats() {
     }
 
     async function sendMessage(e) {
-        const url = 'https://red-social-jr.onrender.com/messages'
+        const url = 'http://localhost:8080/messages'
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
                 const data = {
@@ -94,11 +111,13 @@ export default function Chats() {
                 }
                 await axios.post(url, data, headers)
                 messageInput.current.value = ''
+                sendServerMessage(data)
                 setTimeout(() => {
                     getMessages()
                 }, 200)
             }
         } catch (error) {
+            console.log(error)
             if (error.code === "ERR_NETWORK") {
                 toast.error("Network Error");
             } else {
@@ -135,7 +154,7 @@ export default function Chats() {
     );
 
     const handleYesClick = async () => {
-        const url = 'https://red-social-jr.onrender.com/conections/' + selectedChat.user_id1._id
+        const url = 'http://localhost:8080/conections/' + selectedChat.user_id1._id
         try {
             const res = await axios.delete(url, headers)
             setTimeout(() => {
@@ -177,6 +196,32 @@ export default function Chats() {
             }
         }
     }, [modalState])
+
+    const socket = io('http://localhost:8081');
+    const connectUser = (userId) => {
+        socket.emit('user Connect', userId);
+    };
+
+    useEffect(() => {
+        socket.on('message received', (msg) => {
+            let conection = conections.find(conection => conection.user_id1._id === msg.sender)
+            let friend = conection.user_id1
+            toast('New Message From: ' + friend.name, {
+                icon: '📩',
+            });
+            if(selectedChat){
+                getMessages()
+            }
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, [socket]);
+
+    const sendServerMessage = (message) => {
+        socket.emit('chat message', message);
+    };
 
     return (
         <div className='chatsPage-container'>

@@ -6,25 +6,27 @@ import { useRef } from 'react'
 import axios from 'axios'
 import { LoadStart, LoadRemove } from '../../components/Loading'
 import toast from 'react-hot-toast'
+import { useSelector } from 'react-redux'
 
 export default function Index() {
   const navigate = useNavigate()
   const publicationData = useRef()
   const [publications, setPublications] = useState([])
   const userData = JSON.parse(localStorage.getItem('user')) || {}
+  const modalState = useSelector(store => store.modalReducer.state)
+  const token = localStorage.getItem('token')
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
     if (!token) {
       navigate('/auth')
-    }else{
+    } else {
       getPublications()
     }
   }, [])
 
   async function getPublications() {
     LoadStart()
-    const url = 'https://red-social-jr.onrender.com/publications'
+    const url = 'http://localhost:8080/publications'
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
@@ -48,7 +50,7 @@ export default function Index() {
   async function handlePublication(e) {
     e.preventDefault()
     LoadStart()
-    const url = 'https://red-social-jr.onrender.com/publications'
+    const url = 'http://localhost:8080/publications'
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     const data = {
@@ -74,10 +76,10 @@ export default function Index() {
     }
   }
 
-  async function deletePublication(e){
+  async function deletePublication(e) {
     let id = e.target.id
     LoadStart()
-    const url = `https://red-social-jr.onrender.com/publications/${id}`
+    const url = `http://localhost:8080/publications/${id}`
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
@@ -102,43 +104,50 @@ export default function Index() {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-  
+
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = String(date.getFullYear()).slice(-2);
-  
+
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-  
+
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 
   async function deletePublicationQuestion(e) {
-    toast(<QuestionToast e={e}/>, {
-        duration: Infinity
+    toast(<QuestionToast e={e} />, {
+      duration: Infinity
     });
-}
+  }
 
-  const QuestionToast = ({e}) => (
+  const QuestionToast = ({ e }) => (
     <div className='toast'>
-        <h4>¿Are you sure?</h4>
-        <div className='toast-btns'>
-            <button className='yes-btn' id={e.target.id} onClick={handleYesClick}>Sí</button>
-            <button className='no-btn' onClick={handleNoClick}>No</button>
-        </div>
+      <h4>¿Are you sure?</h4>
+      <div className='toast-btns'>
+        <button className='yes-btn' id={e.target.id} onClick={handleYesClick}>Sí</button>
+        <button className='no-btn' onClick={handleNoClick}>No</button>
+      </div>
     </div>
-);
+  );
 
-const handleYesClick = (e) => {
-  deletePublication(e)
-  toast.dismiss();
-};
+  const handleYesClick = (e) => {
+    deletePublication(e)
+    toast.dismiss();
+  };
 
 
-const handleNoClick = () => {
-  toast.dismiss();
-};
+  const handleNoClick = () => {
+    toast.dismiss();
+  };
 
+  useEffect(() => {
+    if (!token) {
+      navigate('/auth')
+    } else {
+      getPublications()
+    }
+  }, [modalState])
 
   return (
     <div className='main-container'>
@@ -146,7 +155,7 @@ const handleNoClick = () => {
       <div className='home'>
         <div className='new-publication'>
           <div className='person'>
-            <img src={userData.photo} alt='profile-photo'/>
+            <img src={userData.photo} alt='profile-photo' />
             <h3>{userData.name}</h3>
           </div>
           <form onSubmit={handlePublication}>
@@ -168,8 +177,8 @@ const handleNoClick = () => {
                     </div>
                     {
                       publication.user_id._id == userData.user_id ? <div>
-                      <i className="fa-solid fa-trash garbage" onClick={deletePublicationQuestion} id={publication._id}></i>
-                    </div> : <></>
+                        <i className="fa-solid fa-trash garbage" onClick={deletePublicationQuestion} id={publication._id}></i>
+                      </div> : <></>
                     }
                   </div>
                 return card

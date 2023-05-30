@@ -29,12 +29,15 @@ export default function Network() {
   }, [])
 
   async function getUsers() {
-    const url = 'https://red-social-jr.onrender.com/users?name=' + search
+    LoadStart()
+    const url = 'http://localhost:8080/users?name=' + search
     try {
       const res = await axios.get(url)
       const filteredUsers = res.data.users.filter(user => user._id != userData.user_id)
       setUsers(filteredUsers)
+      LoadRemove()
     } catch (error) {
+      LoadRemove()
       if (error.code === "ERR_NETWORK") {
         toast.error("Network Error");
       } else {
@@ -50,7 +53,7 @@ export default function Network() {
   async function handleFriendRequest(e) {
     LoadStart()
     let id = e.target.id
-    const url = 'https://red-social-jr.onrender.com/notifications'
+    const url = 'http://localhost:8080/notifications'
     let data = {
       user_id1: userData.user_id,
       user_id2: id
@@ -75,7 +78,7 @@ export default function Network() {
   }
 
   async function getNotifications() {
-    const url = 'https://red-social-jr.onrender.com/notifications'
+    const url = 'http://localhost:8080/notifications'
     try {
       const res = await axios.get(url, headers)
       setNotifications(res.data.notifications)
@@ -93,7 +96,7 @@ export default function Network() {
   }
 
   async function getConections() {
-    const url = 'https://red-social-jr.onrender.com/conections'
+    const url = 'http://localhost:8080/conections'
     try {
       const res = await axios.get(url, headers)
       setConections(res.data.conections)
