@@ -4,9 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.3) url('../../images/bg.jpg');
+    background: rgba(0, 0, 0, 0.3) url('https://www.toptal.com/designers/subtlepatterns/uploads/leaves.png');
     background-blend-mode: darken;
-    background-size: cover;
     background-position: center;
 }
 

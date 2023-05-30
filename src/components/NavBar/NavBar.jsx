@@ -26,7 +26,7 @@ export default function NavBar() {
     async function logOut() {
         try {
             LoadStart()
-            let url = 'https://red-social-jr.onrender.com/users/signout'
+            let url = 'http://localhost:8080/users/signout'
             const token = localStorage.getItem('token');
             const headers = { headers: { Authorization: `Bearer ${token}` } };
             const res = await axios.post(url, null, headers)

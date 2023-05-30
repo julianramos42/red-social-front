@@ -17,11 +17,13 @@ export default function Network() {
   const modalState = useSelector(store => store.modalReducer.state)
   const token = localStorage.getItem('token')
   const headers = { headers: { Authorization: `Bearer ${token}` } };
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     if (!token) {
       navigate('/auth')
     } else {
+      LoadStart()
       getUsers()
       getNotifications()
       getConections()
@@ -29,12 +31,10 @@ export default function Network() {
   }, [])
 
   async function getUsers() {
-    LoadStart()
-    const url = 'https://red-social-jr.onrender.com/users?name=' + search
+    const url = `http://localhost:8080/users?name=${search}&page=${page}`
     try {
-      const res = await axios.get(url)
-      const filteredUsers = res.data.users.filter(user => user._id != userData.user_id)
-      setUsers(filteredUsers)
+      const res = await axios.get(url, headers)
+      setUsers(res.data.users)
       LoadRemove()
     } catch (error) {
       LoadRemove()
@@ -53,7 +53,7 @@ export default function Network() {
   async function handleFriendRequest(e) {
     LoadStart()
     let id = e.target.id
-    const url = 'https://red-social-jr.onrender.com/notifications'
+    const url = 'http://localhost:8080/notifications'
     let data = {
       user_id1: userData.user_id,
       user_id2: id
@@ -78,7 +78,7 @@ export default function Network() {
   }
 
   async function getNotifications() {
-    const url = 'https://red-social-jr.onrender.com/notifications'
+    const url = 'http://localhost:8080/notifications'
     try {
       const res = await axios.get(url, headers)
       setNotifications(res.data.notifications)
@@ -96,7 +96,7 @@ export default function Network() {
   }
 
   async function getConections() {
-    const url = 'https://red-social-jr.onrender.com/conections'
+    const url = 'http://localhost:8080/conections'
     try {
       const res = await axios.get(url, headers)
       setConections(res.data.conections)
@@ -136,6 +136,14 @@ export default function Network() {
     }
   }, [modalState])
 
+  useEffect(() => {
+    if (!token) {
+      navigate('/auth')
+    } else {
+      getUsers()
+    }
+  }, [page])
+
   return (
     <div className='network-container'>
       <NavBar />
@@ -148,30 +156,42 @@ export default function Network() {
         </div>
         <div className='network-persons'>
           {
-            users?.map((user, i) => {
-              let exists = notifications.some(notification => {
-                return notification.user_id1._id == user._id || notification.user_id2._id == user._id
-              })
-              let conectionExists = conections.some(conection => {
-                return conection.user_id1._id == user._id || conection.user_id2._id == user._id
-              })
-              let card = <div className='one-person' key={i}>
-                <div className='person-info'>
-                  <img src={user.photo} alt='profile-photo' />
-                  <h3>{user.name}</h3>
+            users.length ?
+              users?.map((user, i) => {
+                let exists = notifications.some(notification => {
+                  return notification.user_id1._id == user._id || notification.user_id2._id == user._id
+                })
+                let conectionExists = conections.some(conection => {
+                  return conection.user_id1._id == user._id || conection.user_id2._id == user._id
+                })
+                let card = <div className='one-person' key={i}>
+                  <div className='person-info'>
+                    <img src={user.photo} alt='profile-photo' />
+                    <h3>{user.name}</h3>
+                  </div>
+                  {
+                    !exists && conectionExists && <button className='added-friend'>Friends</button>
+                  }
+                  {
+                    exists && !conectionExists && <button className='pending-friend'>Pending</button>
+                  }
+                  {
+                    !exists && !conectionExists && <button className='add-friend' id={user._id} onClick={handleFriendRequest}>Add Friend</button>
+                  }
                 </div>
-                {
-                  !exists && conectionExists && <button className='added-friend'>Connected</button>
-                }
-                {
-                  exists && !conectionExists && <button className='pending-friend'>Pending</button>
-                }
-                {
-                  !exists && !conectionExists && <button className='add-friend' id={user._id} onClick={handleFriendRequest}>Add Friend</button>
-                }
+                return card
+              })
+              : <div>
+                <p>No users found</p>
               </div>
-              return card
-            })
+          }
+          {
+            users.length || search ? <div className='page-arrows'>
+              { page === 1 ? <></> : <i className="fa-solid fa-arrow-left" onClick={() => {setPage(page-1)}}></i> }
+              <p>Page - {page}</p>
+              { users.length === 10 ? <i className="fa-solid fa-arrow-right" onClick={() => {setPage(page+1)}}></i> : <></> }
+            </div>
+            : <></>
           }
         </div>
       </div>

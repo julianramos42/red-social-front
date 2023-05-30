@@ -12,9 +12,11 @@ export default function Index() {
   const navigate = useNavigate()
   const publicationData = useRef()
   const [publications, setPublications] = useState([])
+  const [cantPublications, setCantPublications] = useState('')
   const userData = JSON.parse(localStorage.getItem('user')) || {}
   const modalState = useSelector(store => store.modalReducer.state)
   const token = localStorage.getItem('token')
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     if (!token) {
@@ -26,12 +28,13 @@ export default function Index() {
 
   async function getPublications() {
     LoadStart()
-    const url = 'https://red-social-jr.onrender.com/publications'
+    const url = `http://localhost:8080/publications?page=${page}`
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
       const res = await axios.get(url, headers)
       setPublications(res.data.publications)
+      setCantPublications(res.data.cantPublications)
       LoadRemove()
     } catch (error) {
       LoadRemove()
@@ -50,7 +53,7 @@ export default function Index() {
   async function handlePublication(e) {
     e.preventDefault()
     LoadStart()
-    const url = 'https://red-social-jr.onrender.com/publications'
+    const url = 'http://localhost:8080/publications'
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     const data = {
@@ -79,7 +82,7 @@ export default function Index() {
   async function deletePublication(e) {
     let id = e.target.id
     LoadStart()
-    const url = `https://red-social-jr.onrender.com/publications/${id}`
+    const url = `http://localhost:8080/publications/${id}`
     const token = localStorage.getItem('token');
     const headers = { headers: { Authorization: `Bearer ${token}` } };
     try {
@@ -149,6 +152,15 @@ export default function Index() {
     }
   }, [modalState])
 
+  useEffect(() => {
+    if (!token) {
+      navigate('/auth')
+    } else {
+      getPublications()
+    }
+  }, [page])
+
+
   return (
     <div className='main-container'>
       <NavBar />
@@ -186,6 +198,11 @@ export default function Index() {
               : <div>
                 <p>No posts found</p>
               </div>
+          }
+          {
+            publications.length && publications.length !== cantPublications ? <div>
+              <button onClick={() => {setPage(page+1)}} className='show-more-btn'>Show More</button>
+            </div> : <></>
           }
         </div>
       </div>

@@ -2,7 +2,8 @@
     width: 100vw;
     min-height: 100vh;
     padding: 0% 5%;
-    background: rgb(243, 230, 255);
+    background: rgba(0, 0, 0,0.4) url(https://www.toptal.com/designers/subtlepatterns/uploads/moroccan-flower-dark.png);
+    background-blend-mode: darken;
     display: flex;
     justify-content: center;
 }
@@ -145,6 +146,7 @@
   .message1>h4, .message2>h4{
     color: rgba(0, 0, 0, 1);
     font-weight: 500;
+    word-break: break-all;
   }
 
   .message1-date, .message2-date{

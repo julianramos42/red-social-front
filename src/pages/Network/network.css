@@ -2,7 +2,8 @@
     width: 100%;
     min-height: 100vh;
     padding: 3% 20%;
-    background: rgb(243, 230, 255);
+    background: rgba(0, 0, 0,0.4) url(https://www.toptal.com/designers/subtlepatterns/uploads/moroccan-flower-dark.png);
+    background-blend-mode: darken;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,7 +74,7 @@
 }
 
 .add-friend{
-    background-color: rgb(134, 82, 255);
+    background-color: rgb(103, 38, 255);
     color: #efefef;
     height: 25px;
     width: 100px;
@@ -84,11 +85,11 @@
 
 .add-friend:hover{
     cursor: pointer;
-    background-color: rgb(80, 82, 180);
+    background-color: rgb(134, 82, 255);;
 }
 
 .added-friend{
-    background-color: rgb(82, 128, 255);
+    background-color: rgb(103, 113, 255);
     color: #efefef;
     height: 25px;
     width: 100px;
@@ -98,7 +99,7 @@
 }
 
 .added-friend:hover{
-    background-color: rgb(80, 103, 180);
+    background-color: rgb(59, 111, 255);
 }
 
 
@@ -114,6 +115,22 @@
 
 .pending-friend:hover{
     background-color: rgb(180, 80, 80);
+}
+
+.page-arrows{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.page-arrows i{
+    cursor: pointer;
+    font-size: 16px;
+    transition: .4s;
+}
+
+.page-arrows i:hover{
+    font-size: 18px;
 }
 
 @media (max-width: 767px){

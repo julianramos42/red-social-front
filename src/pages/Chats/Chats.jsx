@@ -19,13 +19,25 @@ export default function Chats() {
     const [messages, setMessages] = useState([])
     const messageInput = useRef()
     const connectionSearch = useRef()
+    const lastMessage = useRef()
     const token = localStorage.getItem('token')
     const headers = { headers: { Authorization: `Bearer ${token}` } };
+
+    useEffect( () => {
+        if (!token) {
+            navigate('/auth')
+        } else {
+            if(lastMessage.current){
+                lastMessage.current.scrollIntoView({behavior: 'smooth'})
+            }
+        }
+    },[lastMessage.current,messages])
 
     useEffect(() => {
         if (!token) {
             navigate('/auth')
         } else {
+            LoadStart()
             getConections()
             connectUser(userData.user_id)
         }
@@ -50,8 +62,7 @@ export default function Chats() {
     }, [selectedChat])
 
     async function getConections() {
-        LoadStart()
-        const url = 'https://red-social-jr.onrender.com/conections?name=' + connectionSearch.current.value
+        const url = 'http://localhost:8080/conections?name=' + connectionSearch.current.value
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
@@ -72,7 +83,7 @@ export default function Chats() {
 
     async function getMessages() {
         LoadStart()
-        const url = 'https://red-social-jr.onrender.com/messages/' + selectedChat.user_id1._id
+        const url = 'http://localhost:8080/messages/' + selectedChat.user_id1._id
         try {
             const res = await axios.get(url, headers)
             setMessages(res.data.messages)
@@ -101,7 +112,7 @@ export default function Chats() {
     }
 
     async function sendMessage(e) {
-        const url = 'https://red-social-jr.onrender.com/messages'
+        const url = 'http://localhost:8080/messages'
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
                 const data = {
@@ -154,7 +165,7 @@ export default function Chats() {
     );
 
     const handleYesClick = async () => {
-        const url = 'https://red-social-jr.onrender.com/conections/' + selectedChat.user_id1._id
+        const url = 'http://localhost:8080/conections/' + selectedChat.user_id1._id
         try {
             const res = await axios.delete(url, headers)
             setTimeout(() => {
@@ -196,8 +207,8 @@ export default function Chats() {
             }
         }
     }, [modalState])
-
-    const socket = io('https://red-social-jr.onrender.com');
+    // http://localhost:8080
+    const socket = io(''); 
     const connectUser = (userId) => {
         socket.emit('user Connect', userId);
     };
@@ -270,10 +281,11 @@ export default function Chats() {
                                         messages.length ? messages.map((message, i) => {
                                             let receiver = userData.user_id === message.receiver
                                             let sender = userData.user_id === message.sender
+                                            let newestMessage = (messages.length-1 === i)
                                             let card = <>
                                                 {
                                                     receiver && !sender && <>
-                                                        <div className='message1' key={i}>
+                                                        <div className='message1' key={i} ref={newestMessage ? lastMessage : null }>
                                                             <h4>{message.text}</h4>
                                                         </div>
                                                         <span className="message1-date">{formatDate(message.createdAt)}</span>
@@ -281,7 +293,7 @@ export default function Chats() {
                                                 }
                                                 {
                                                     sender && !receiver && <>
-                                                        <div className='message2' key={i}>
+                                                        <div className='message2' key={i} ref={newestMessage ? lastMessage : null }>
                                                             <h4>{message.text}</h4>
                                                         </div>
                                                         <span className="message2-date">{formatDate(message.createdAt)}</span>
