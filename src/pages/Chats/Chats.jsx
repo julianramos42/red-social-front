@@ -23,15 +23,15 @@ export default function Chats() {
     const token = localStorage.getItem('token')
     const headers = { headers: { Authorization: `Bearer ${token}` } };
 
-    useEffect( () => {
+    useEffect(() => {
         if (!token) {
             navigate('/auth')
         } else {
-            if(lastMessage.current){
-                lastMessage.current.scrollIntoView({behavior: 'smooth'})
+            if (lastMessage.current) {
+                lastMessage.current.scrollIntoView({ behavior: 'smooth' })
             }
         }
-    },[lastMessage.current,messages])
+    }, [lastMessage.current, messages])
 
     useEffect(() => {
         if (!token) {
@@ -110,22 +110,28 @@ export default function Chats() {
     function textMessage(e) {
         setMessageText(e.target.value)
     }
-
     async function sendMessage(e) {
         const url = 'https://red-social-jr.onrender.com/messages'
+
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
-                const data = {
-                    text: messageText,
-                    receiver: selectedChat.user_id1._id,
-                    sender: userData.user_id
+                getConections()
+                let areFriends = conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
+                if (!areFriends) {
+                    setSelectedChat('')
+                } else {
+                    const data = {
+                        text: messageText,
+                        receiver: selectedChat.user_id1._id,
+                        sender: userData.user_id
+                    }
+                    await axios.post(url, data, headers)
+                    messageInput.current.value = ''
+                    sendServerMessage(data)
+                    setTimeout(() => {
+                        getMessages()
+                    }, 200)
                 }
-                await axios.post(url, data, headers)
-                messageInput.current.value = ''
-                sendServerMessage(data)
-                setTimeout(() => {
-                    getMessages()
-                }, 200)
             }
         } catch (error) {
             console.log(error)
@@ -207,7 +213,7 @@ export default function Chats() {
             }
         }
     }, [modalState])
-    const socket = io('https://red-social-jr.onrender.com'); 
+    const socket = io('https://red-social-jr.onrender.com');
     const connectUser = (userId) => {
         socket.emit('user Connect', userId);
     };
@@ -219,7 +225,7 @@ export default function Chats() {
             toast('New Message From: ' + friend.name, {
                 icon: '📩',
             });
-            if(selectedChat){
+            if (selectedChat) {
                 getMessages()
             }
         });
@@ -280,11 +286,11 @@ export default function Chats() {
                                         messages.length ? messages.map((message, i) => {
                                             let receiver = userData.user_id === message.receiver
                                             let sender = userData.user_id === message.sender
-                                            let newestMessage = (messages.length-1 === i)
+                                            let newestMessage = (messages.length - 1 === i)
                                             let card = <>
                                                 {
                                                     receiver && !sender && <>
-                                                        <div className='message1' key={i} ref={newestMessage ? lastMessage : null }>
+                                                        <div className='message1' key={i} ref={newestMessage ? lastMessage : null}>
                                                             <h4>{message.text}</h4>
                                                         </div>
                                                         <span className="message1-date">{formatDate(message.createdAt)}</span>
@@ -292,7 +298,7 @@ export default function Chats() {
                                                 }
                                                 {
                                                     sender && !receiver && <>
-                                                        <div className='message2' key={i} ref={newestMessage ? lastMessage : null }>
+                                                        <div className='message2' key={i} ref={newestMessage ? lastMessage : null}>
                                                             <h4>{message.text}</h4>
                                                         </div>
                                                         <span className="message2-date">{formatDate(message.createdAt)}</span>
