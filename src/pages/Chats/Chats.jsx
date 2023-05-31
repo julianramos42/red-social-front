@@ -66,6 +66,10 @@ export default function Chats() {
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
+            let areFriends = res.data.conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
+            if (!areFriends) {
+                setSelectedChat('')
+            }
             LoadRemove()
         } catch (error) {
             LoadRemove()
@@ -112,14 +116,10 @@ export default function Chats() {
     }
     async function sendMessage(e) {
         const url = 'https://red-social-jr.onrender.com/messages'
-
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
                 getConections()
-                let areFriends = conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
-                if (!areFriends) {
-                    setSelectedChat('')
-                } else {
+                if (selectedChat) {
                     const data = {
                         text: messageText,
                         receiver: selectedChat.user_id1._id,
