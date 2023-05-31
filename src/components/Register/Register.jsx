@@ -61,7 +61,7 @@ export default function Register({setState}) {
                         <input type='text' name='name' id='name' placeholder='Name' />
                     </fieldset>
                     <fieldset>
-                        <input type='text' name='photo' id='photo' placeholder='Photo URL' />
+                        <input type='text' name='photo' id='photo' placeholder='Photo URL or Leave Blank' />
                     </fieldset>
                     <fieldset>
                         <input type='email' name='email' id='email' placeholder='Email' />
