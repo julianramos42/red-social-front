@@ -215,8 +215,8 @@ export default function Chats() {
             }
         }
     }, [modalState])
-    // https://red-social-jr.onrender.com
-    const socket = io('');
+    
+    const socket = io('https://red-social-jr.onrender.com');
     const connectUser = (userId) => {
         socket.emit('user Connect', userId);
     };
