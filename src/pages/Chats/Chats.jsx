@@ -66,9 +66,12 @@ export default function Chats() {
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
-            let areFriends = res.data.conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
-            if (!areFriends) {
-                setSelectedChat('')
+            if (selectedChat) {
+                let areFriends = res.data.conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
+                if (!areFriends) {
+                    setSelectedChat('')
+                    messageInput.current.value = ''
+                }
             }
             LoadRemove()
         } catch (error) {
@@ -118,8 +121,8 @@ export default function Chats() {
         const url = 'https://red-social-jr.onrender.com/messages'
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
-                getConections()
-                if (selectedChat) {
+                await getConections()
+                if (selectedChat && messageInput.current.value) {
                     const data = {
                         text: messageText,
                         receiver: selectedChat.user_id1._id,
@@ -134,7 +137,6 @@ export default function Chats() {
                 }
             }
         } catch (error) {
-            console.log(error)
             if (error.code === "ERR_NETWORK") {
                 toast.error("Network Error");
             } else {
@@ -213,7 +215,8 @@ export default function Chats() {
             }
         }
     }, [modalState])
-    const socket = io('https://red-social-jr.onrender.com');
+    // https://red-social-jr.onrender.com
+    const socket = io('');
     const connectUser = (userId) => {
         socket.emit('user Connect', userId);
     };
