@@ -32,6 +32,7 @@ export default function NavBar() {
             const res = await axios.post(url, null, headers)
             toast.success(res.data.message)
             localStorage.removeItem('token')
+            localStorage.removeItem('user')
             setTimeout(() => {
                 LoadRemove()
                 navigate('/auth')
