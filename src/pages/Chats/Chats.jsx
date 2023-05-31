@@ -23,15 +23,15 @@ export default function Chats() {
     const token = localStorage.getItem('token')
     const headers = { headers: { Authorization: `Bearer ${token}` } };
 
-    useEffect(() => {
+    useEffect( () => {
         if (!token) {
             navigate('/auth')
         } else {
-            if (lastMessage.current) {
-                lastMessage.current.scrollIntoView({ behavior: 'smooth' })
+            if(lastMessage.current){
+                lastMessage.current.scrollIntoView({behavior: 'smooth'})
             }
         }
-    }, [lastMessage.current, messages])
+    },[lastMessage.current,messages])
 
     useEffect(() => {
         if (!token) {
@@ -39,7 +39,6 @@ export default function Chats() {
         } else {
             LoadStart()
             getConections()
-            connectUser(userData.user_id)
         }
     }, [])
 
@@ -66,13 +65,6 @@ export default function Chats() {
         try {
             const res = await axios.get(url, headers)
             setConections(res.data.conections)
-            if (selectedChat) {
-                let areFriends = res.data.conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
-                if (!areFriends) {
-                    setSelectedChat('')
-                    messageInput.current.value = ''
-                }
-            }
             LoadRemove()
         } catch (error) {
             LoadRemove()
@@ -117,12 +109,14 @@ export default function Chats() {
     function textMessage(e) {
         setMessageText(e.target.value)
     }
+
     async function sendMessage(e) {
         const url = 'https://red-social-jr.onrender.com/messages'
         try {
             if ((e.key === 'Enter' || e.target.id === 'send') && messageText) {
-                await getConections()
-                if (selectedChat && messageInput.current.value) {
+                getConections()
+                let friend = conections.some(conection => conection.user_id1._id === selectedChat.user_id1._id)
+                if(friend){
                     const data = {
                         text: messageText,
                         receiver: selectedChat.user_id1._id,
@@ -134,9 +128,12 @@ export default function Chats() {
                     setTimeout(() => {
                         getMessages()
                     }, 200)
+                }else{
+                    setSelectedChat('')
                 }
             }
         } catch (error) {
+            console.log(error)
             if (error.code === "ERR_NETWORK") {
                 toast.error("Network Error");
             } else {
@@ -215,8 +212,7 @@ export default function Chats() {
             }
         }
     }, [modalState])
-    
-    const socket = io('https://red-social-jr.onrender.com');
+    const socket = io('https://red-social-jr.onrender.com'); 
     const connectUser = (userId) => {
         socket.emit('user Connect', userId);
     };
@@ -224,12 +220,14 @@ export default function Chats() {
     useEffect(() => {
         socket.on('message received', (msg) => {
             let conection = conections.find(conection => conection.user_id1._id === msg.sender)
-            let friend = conection.user_id1
-            toast('New Message From: ' + friend.name, {
-                icon: '📩',
-            });
-            if (selectedChat) {
-                getMessages()
+            if(conection){
+                let friend = conection.user_id1
+                toast('New Message From: ' + friend.name, {
+                    icon: '📩',
+                });
+                if(selectedChat){
+                    getMessages()
+                }
             }
         });
 
@@ -289,11 +287,11 @@ export default function Chats() {
                                         messages.length ? messages.map((message, i) => {
                                             let receiver = userData.user_id === message.receiver
                                             let sender = userData.user_id === message.sender
-                                            let newestMessage = (messages.length - 1 === i)
+                                            let newestMessage = (messages.length-1 === i)
                                             let card = <>
                                                 {
                                                     receiver && !sender && <>
-                                                        <div className='message1' key={i} ref={newestMessage ? lastMessage : null}>
+                                                        <div className='message1' key={i} ref={newestMessage ? lastMessage : null }>
                                                             <h4>{message.text}</h4>
                                                         </div>
                                                         <span className="message1-date">{formatDate(message.createdAt)}</span>
@@ -301,7 +299,7 @@ export default function Chats() {
                                                 }
                                                 {
                                                     sender && !receiver && <>
-                                                        <div className='message2' key={i} ref={newestMessage ? lastMessage : null}>
+                                                        <div className='message2' key={i} ref={newestMessage ? lastMessage : null }>
                                                             <h4>{message.text}</h4>
                                                         </div>
                                                         <span className="message2-date">{formatDate(message.createdAt)}</span>
